@@ -7,27 +7,32 @@ class Article extends React.Component {
   state = {
     comments: [],
     newComment: '',
+    error: '',
   };
 
   handleChange = (e) => {
-    this.setState({ newComment: e.target.value });
+    this.setState({ newComment: e.target.value, error: '' });
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
 
     const { newComment, comments } = this.state;
-    if (newComment.trim() === '') return;
+    if (newComment.trim() === '') {
+      this.setState({ error: 'Komentarz nie może być pusty!' });
+      return;
+    }
 
     this.setState({
       comments: [...comments, newComment],
       newComment: '',
+      error: '',
     });
   };
 
   render() {
     const { title, body } = this.props;
-    const { comments, newComment } = this.state;
+    const { comments, newComment, error } = this.state;
     return (
       <article>
         <h1>{title}</h1>
@@ -44,6 +49,9 @@ class Article extends React.Component {
                 />
               </label>
             </div>
+            {error && (
+              <p style={{ color: 'red', fontWeight: 'bold' }}>{error}</p>
+            )}
             <div>
               <input type='submit' value='dodaj komentarz' />
             </div>
