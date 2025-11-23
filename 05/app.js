@@ -1,5 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import { API_KEY } from './secret';
 
 class Weather extends React.Component {
   constructor(props) {
@@ -11,7 +12,6 @@ class Weather extends React.Component {
   }
   componentDidMount() {
     const { lat, lng } = this.props;
-    const API_KEY = '6e86c3547c88493792e8bef2cd9c0a1c';
 
     const url = `https://api.weatherbit.io/v2.0/current?key=${API_KEY}&lat=${lat}&lon=${lng}&lang=pl`;
 
@@ -22,8 +22,9 @@ class Weather extends React.Component {
         }
         return response.json();
       })
-      .then((data) => {
-        this.setState({ data: data.data[0] });
+      .then((json) => {
+        const { data } = json;
+        this.setState({ data: data[0] });
       })
       .catch((error) => {
         this.setState({ error: error.message });
