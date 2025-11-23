@@ -9,6 +9,7 @@ class App extends React.Component {
     lastName: '',
     searchQuery: '',
     users: ['Jan Kowalski', 'Michał Nowak'],
+    error: '',
   };
 
   renderUsersList() {
@@ -56,6 +57,9 @@ class App extends React.Component {
           <input name='lastName' value={lastName} onChange={this.inputChange} />
           <input type='submit' />
         </form>
+        {this.state.error && (
+          <p style={{ color: 'red', fontWeight: 'bold' }}>{this.state.error}</p>
+        )}
         <div>
           <label>
             Szukaj użytkowika:&nbsp;
@@ -81,9 +85,12 @@ class App extends React.Component {
       this.setState({
         firstName: '',
         lastName: '',
+        error: '',
       });
     } else {
-      // tutaj komunikat dla użytkownika
+      this.setState({
+        error: 'Proszę wpisać imię i nazwisko!',
+      });
     }
   };
 
